@@ -15,18 +15,29 @@
   <div class="container">
     <div class="row mt-3">
       <div class="col-md-12">
-        <div class="input-group">
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" accept=".CSV" id="filepicker"
-              aria-describedby="inputGroupFileAddon04">
-            <label class="custom-file-label" for="filepicker">Choose file</label>
+        <form>
+          <div class="form-group">
+            <label for="searchTerm">Search Term:</label>
+            <input type="text" class="form-control" id="searchTerm" aria-describedby="emailHelp">
+            <small class="form-text text-muted">Case Sensitive!</small>
           </div>
-        </div>
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" accept=".CSV" id="filepicker"
+                aria-describedby="inputGroupFileAddon04">
+              <label class="custom-file-label" for="filepicker">Choose file</label>
+            </div>
+          </div>
+          <br>
+          <div class="text-center">
+            <button class="btn btn-primary" id="buttonSubmit">Submit</button>
+          </div>
+        </form>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <pre id="output"></pre>
+      <div class="col-md-12 mt-3">
+        <p id="output" class="border rounded">Test</p>
       </div>
     </div>
   </div>

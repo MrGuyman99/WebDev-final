@@ -11,6 +11,7 @@
 // Also removes extra characters like "\"Lincoln Park-CPS\"" to Lincoln Park-CPS 
 function parseCSV(content) {
     const rows = content.trim().split("\n");
+    // We return a new 2D array using the .map method
     return rows.map(row =>
         row.split(",").map(cell =>
             cell.trim().replace(/^"|"$/g, "")
@@ -35,16 +36,25 @@ function readCSV(file) {
 function search(data, search_term) {
     for (const row of data) {
         if (row[2] == search_term) {
-            console.log(`Found Match: ${row[2]}`)
+            return (row);
         }
     }
 }
+
+let data;
 // Made the function as async so we can use await and wait for the Promise function to finish
 document.getElementById('filepicker').addEventListener('change', async function (event) {
     const file = event.target.files[0];
     if (!file) return;
     const content = await readCSV(file);
     // Chops off the header content
-    const data = content.slice(1);
-    search(data, "Lincoln Park-CPS");
+    data = content.slice(1);
+});
+
+document.getElementById('buttonSubmit').addEventListener('submit', function (e) {
+    e.preventDefault();
+    let term = document.getElementById("searchTerm").value;
+    if (term != "") {
+        document.getElementById('output').innerText += search(data, term);
+    }
 });
