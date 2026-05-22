@@ -7,18 +7,6 @@
     ZIP Code, Chicago Energy Rating, Exempt From Chicago Energy Rating
 */
 
-// In a Promise() so that we can await on it later, 
-// because of this we can wait for the content to finish loading
-function readCSV(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        // When file is finished being read we essentially return the result to what called the function
-        reader.onload = (e) => resolve(e.target.result);
-        reader.onerror = () => reject(new Error("Failed to read file :("));
-        reader.readAsText(file);
-    });
-}
-
 // CSV -> "a,b\n1,2" to Javascript 2D Array -> [["a", "b"], ["1", "2"]]
 // Also removes extra characters like "\"Lincoln Park-CPS\"" to Lincoln Park-CPS 
 function parseCSV(content) {
@@ -30,6 +18,19 @@ function parseCSV(content) {
     );
 }
 
+// In a Promise() so that we can await on it later, 
+// because of this we can wait for the content to finish loading
+function readCSV(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        // When file is finished being read we essentially return the result to what called the function
+        // We also return the parsed result
+        reader.onload = (e) => resolve(parseCSV(e.target.result));
+        reader.onerror = () => reject(new Error("Failed to read file :("));
+        reader.readAsText(file);
+    });
+}
+
 // Iterates through the dataset stored in data and searches for a given term
 function search(data, search_term) {
     for (const row of data) {
@@ -38,17 +39,12 @@ function search(data, search_term) {
         }
     }
 }
-
 // Made the function as async so we can use await and wait for the Promise function to finish
 document.getElementById('filepicker').addEventListener('change', async function (event) {
     const file = event.target.files[0];
     if (!file) return;
     const content = await readCSV(file);
-    // Converts to our usuable 2D array!
-    const parsed = parseCSV(content);
     // Chops off the header content
-    const data = parsed.slice(1);
-
+    const data = content.slice(1);
     search(data, "Lincoln Park-CPS");
-    document.getElementById('output').innerText = content;
 });
