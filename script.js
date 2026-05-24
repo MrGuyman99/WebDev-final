@@ -32,12 +32,24 @@ function readCSV(file) {
     });
 }
 
+// Iterates through the radios and finds which is checked
+function iterateRadios(radios) {
+    for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) {
+            return radios[i];
+        }
+    }
+}
+
 // Iterates through the dataset stored in data and searches for a given term
 // We return the entire row so we can use whatever data we want from it
-function search(data, search_term) {
+function search(data, search_term, search_type) {
+    // We find what to search for (Zip Code, Address, e.t.c)
+    let what_checked = Number(iterateRadios(search_type).value);
     for (const row of data) {
-        if (row[2] == search_term) {
-            return (row);
+        // All the values for all of the checkboxes corespond to indexes
+        if (row[what_checked] == search_term) {
+            return [row, what_checked];
         }
     }
 }
@@ -57,14 +69,16 @@ document.getElementById("filepicker").addEventListener("change", async function 
 document.getElementById('filePicker').addEventListener('submit', function (e) {
     // Prevents page from resetting
     e.preventDefault();
-    // Get the term to use the search function with and use global variables data
     let term = document.getElementById("searchTerm").value;
-    let search_result = search(data, term);
-    // Attempt to search with the given term
-    if (term != "") {
-        document.getElementById("output").innerText = `Property name "${search_result[2]}"
-            at address ${search_result[4]} has an energy rating of ${search_result[6]}`;
+    let search_result = search(data, term, document.getElementsByName("search_type"));
+    let output = document.getElementById("output");
+    output.innerText = "";
+    const [row, type] = search_result;
+    if (type === 2) {
+        output.innerText += `Property name "${row[2]}" at address ${row[4]} has an energy rating of ${row[6]}`;
+    } else if (type === 4 || type === 5) {
+        output.innerText += `Address "${row[4]} named ${row[2]} has an energy rating of ${row[6]}`;
     } else {
-        alert("Please input something for a search term!");
+        output.innerText += `Within zip code "${row[5]} at address ${row[4]} the energy rating is ${row[6]}`
     }
 });
