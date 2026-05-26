@@ -54,24 +54,17 @@ function search(data, search_term, search_type) {
     }
 }
 
+let data;
 // Made the function as async so we can use await and wait for the Promise function to finish
 // This runs when the file gets picked
-//document.getElementById("filepicker").addEventListener("change", async function (event) {
-//    const file = event.target.files[0];
-//    if (!file) return;
-//    const content = await readCSV(file);
-//    // Chops off the header content
-//    data = content.slice(1);
-//});
+document.getElementById("filepicker").addEventListener("change", async function (event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const content = await readCSV(file);
+    // Chops off the header content
+    data = content.slice(1);
+});
 
-async function loadCSV(path) {
-    const response = await fetch(path);
-    if (!response.ok) { throw new Error("Failed to load CSV file :("); }
-    const text = await response.text();
-    return parseCSV(text);
-}
-
-let data = loadCSV("https://data.cityofchicago.org/api/v3/views/xq83-jr8c/query.csv");
 // This runs when the we press submit
 document.getElementById('filePicker').addEventListener('submit', function (e) {
     // Prevents page from resetting
