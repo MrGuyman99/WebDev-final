@@ -18,36 +18,36 @@
         <form id="filePicker">
           <div class="form-group">
             <label for="searchTerm">Search Term:</label>
-            <input type="text" class="form-control" id="searchTerm" aria-describedby="emailHelp">
+            <input type="text" required class="form-control" id="searchTerm" aria-describedby="emailHelp">
             <small class="form-text text-muted">Case Sensitive!</small>
           </div>
           <div class="form-check">
-            <input class="form-check-input" name="search_type" type="radio" value="2" id="Property">
+            <input class="form-check-input" required name="search_type" type="radio" value="2" id="Property">
             <label class="form-check-label" for="defaultCheck1">
               Search By Property Name
             </label>
           </div><br>
           <div class="form-check">
-            <input class="form-check-input" name="search_type" type="radio" value="4" id="Address">
+            <input class="form-check-input" required name="search_type" type="radio" value="4" id="Address">
             <label class="form-check-label" for="defaultCheck1">
               Search By Address
             </label>
           </div><br>
           <div class="form-check">
-            <input class="form-check-input" name="search_type" type="radio" value="5" id="ZIP">
+            <input class="form-check-input" required name="search_type" type="radio" value="5" id="ZIP">
             <label class="form-check-label" for="defaultCheck1">
               Search By ZIP Code
             </label>
           </div><br>
           <div class="form-check">
-            <input class="form-check-input" name="search_type" type="radio" value="6" id="Energy">
+            <input class="form-check-input" required name="search_type" type="radio" value="6" id="Energy">
             <label class="form-check-label" for="defaultCheck1">
               Search By Chicago Energy Rating
             </label>
           </div><br>
           <div class="input-group">
             <div class="custom-file">
-              <input type="file" class="custom-file-input" accept=".CSV" id="filepicker"
+              <input type="file" required class="custom-file-input" accept=".CSV" id="filepicker"
                 aria-describedby="inputGroupFileAddon04">
               <label class="custom-file-label" for="filepicker">Choose file</label>
             </div>

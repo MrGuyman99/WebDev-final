@@ -41,11 +41,12 @@ function iterateRadios(radios) {
     }
 }
 
+let what_checked;
 // Iterates through the dataset stored in data and searches for a given term
 // We return the entire row so we can use whatever data we want from it
 function search(data, search_term, search_type) {
     // We find what to search for (Zip Code, Address, e.t.c)
-    let what_checked = Number(iterateRadios(search_type).value);
+    what_checked = Number(iterateRadios(search_type).value);
     for (const row of data) {
         // All the values for all of the checkboxes corespond to indexes
         if (row[what_checked] == search_term) {
@@ -77,7 +78,7 @@ document.getElementById('filePicker').addEventListener('submit', function (e) {
     if (type === 2) {
         output.innerText += `Property name "${row[2]}" at address ${row[4]} has an energy rating of ${row[6]}`;
     } else if (type === 4 || type === 5) {
-        output.innerText += `Address "${row[4]} named ${row[2]} has an energy rating of ${row[6]}`;
+        output.innerText += `Address "${row[4]}" in Zip-Code ${row[5]} has an energy rating of ${row[6]}`;
     } else {
         output.innerText += `Within zip code "${row[5]} at address ${row[4]} the energy rating is ${row[6]}`
     }
