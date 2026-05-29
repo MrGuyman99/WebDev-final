@@ -30,16 +30,95 @@
         </nav>
         <div class="row mt-3">
             <div class="col-md-12">
-                <h1>Testing right now! (Come back soon!)</h1>
+                <div class="jumbotron">
+                    <h1 class="display-4">How this all Works</h1>
+                    <p class="lead">An abriged tutorial on how to read .CSV files</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 col-sm-12">
+                <h3>What is a .CSV file?</h3>
+                <hr>
+                <p>
+                    A .CSV file is the file format Microsoft Excel Sheets are stored in.
+                    The specific sheet we are using is formatted as the list shows.
+                    .CSV files are not very readable straight out the gate. If we look at the raw .CSV file text we get
+                    something like:
+                </p>
+                <div class="bg-light border rounded" style="padding:10px">
+                    "2021","101826",
+                    "Drexel Building","Not Submitted","8136 8142 S DREXEL AVE",
+                    "60619","0.0","false", "CHATHAM",,"66,888",,,,,,,,,,,,,,,,
+                    "41.74401302","-87.60549928",
+                    "(41.74401302, -87.60549928)","2021-101826"
+                </div>
+                <p class="mt-3">
+                    This isn't great. There are so many random commas, coordinates I'm sure you or I
+                    have no use for, and things like "Not Submitted" and "CHATHAM" that make absolutely no sense without
+                    context. Our goal is to take this data and
+                    condense it into something more digestable and prefereably searchable.
+                </p>
+                <div class="bg-light border rounded" style="padding:10px">
+                    Property "Drexel Building" at address "8136 8142 S DREXEL AVE" in Zip-Code "60619"
+                    has an energy rating of 0.0
+                </div>
+                <p class="mt-3">
+                    That's a much more digestable output, now the only question is how the hell do we get there.
+                </p>
+            </div>
+            <div class="col-md-5 col-sm-12">
+                <ul class=" list-group">
+                    <li class="list-group-item bg-info">Format of the dataset (Left to right)</li>
+                    <li class="list-group-item">Year Data Was Taken (E.X "2021")</li>
+                    <li class="list-group-item">ID</li>
+                    <li class="list-group-item">Property Name</li>
+                    <li class="list-group-item">Reporting Status</li>
+                    <li class="list-group-item">Address</li>
+                    <li class="list-group-item">ZIP Code</li>
+                    <li class="list-group-item">Chicago Energy Rating</li>
+                    <li class="list-group-item">Exempt From Chicago Energy Rating</li>
+                </ul>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-12">
+                    <h2>Gettings There:</h2>
+                    <hr>
+                    <p>
+                        So, we need to take our unusable raw data and convert it into something organized and easy to
+                        access. Now, the easiest way I could think of storing this data is by utilizing an array.
+                        Quickly I found that a regular array wouldn't quite suffice, I would have to us and array of
+                        arrays, also known as a 2D array.
+                    </p>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <pre class="shadow"><code class="language-javascript">let test = "Hello World";
-function print(text)){
-    console.log(text);
+                <pre class="shadow"><code class="language-javascript">// CSV -> "a,b\n1,2" to Javascript 2D Array -> [["a", "b"], ["1", "2"]]
+// Also removes extra characters like "\"Lincoln Park-CPS\"" to Lincoln Park-CPS 
+function parseCSV(content) {
+    const rows = content.trim().split("\n");
+    // We return a new 2D array using the .map method
+    return rows.map(row =>
+        row.split(",").map(cell =>
+            cell.trim().replace(/^"|"$/g, "")
+        )
+    );
 }
-print(test); </code></pre>
+
+// In a Promise() so that we can await on it later, 
+// because of this we can wait for the content to finish loading
+function readCSV(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        // When file is finished being read we essentially return the result to what called the function
+        // We also return the parsed result
+        reader.onload = (e) => resolve(parseCSV(e.target.result));
+        reader.onerror = () => reject(new Error("Failed to read file :("));
+        reader.readAsText(file);
+    });
+} </code></pre>
             </div>
         </div>
     </div>
