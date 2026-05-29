@@ -37,7 +37,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-7 col-sm-12">
+            <div class="col-md-8 col-sm-12">
                 <h3>What is a .CSV file?</h3>
                 <hr>
                 <p>
@@ -67,10 +67,10 @@
                     That's a much more digestable output, now the only question is how the hell do we get there.
                 </p>
             </div>
-            <div class="col-md-5 col-sm-12">
+            <div class="col-md-4 col-sm-12">
                 <ul class=" list-group">
                     <li class="list-group-item bg-info">Format of the dataset (Left to right)</li>
-                    <li class="list-group-item">Year Data Was Taken (E.X "2021")</li>
+                    <li class="list-group-item">Year Data Was Taken</li>
                     <li class="list-group-item">ID</li>
                     <li class="list-group-item">Property Name</li>
                     <li class="list-group-item">Reporting Status</li>
@@ -80,26 +80,48 @@
                     <li class="list-group-item">Exempt From Chicago Energy Rating</li>
                 </ul>
             </div>
-            <div class="row mt-2">
-                <div class="col-md-12">
-                    <h2>Gettings There:</h2>
-                    <hr>
-                    <p>
-                        So, we need to take our unusable raw data and convert it into something organized and easy to
-                        access. Now, the easiest way I could think of storing this data is by utilizing an array.
-                        Quickly I found that a regular array wouldn't quite suffice, I would have to us and array of
-                        arrays, also known as a 2D array.
-                    </p>
-                </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-12">
+                <h2>Gettings There:</h2>
+                <hr>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <p>
+                    So, we need to take our unusable raw data and convert it into something organized and easy to
+                    access. Now, the easiest way I could think of storing this data is by utilizing an array. Now,
+                    there are a bunch of different ways to do this. I could store every Zip-Code in one array, all
+                    the Address in another, all the property names in one more, (e.t.c) and have the index of the
+                    values correspond to what row they're in. An example of this is shown at the left. Now, that's all
+                    fine and dandy, but what if we wanted to get even more organized? Well, we could store an array of
+                    arrays! Specifically, each index would store a row, and in that row we could use another index to
+                    access all the Zip-Codes, addresses, energy ratings, and property names for that row.
+                </p>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <pre class="shadow border rounded"><code class="language-javascript">// Example of using multiple arrays 
+//(Assuming the Drexel Building is on row 0)
+let addresses = ["8136 8142 S DREXEL AVE", ...];
+let property_name = ["Drexel Building", ...];
+let Zip-Code = ["60619", ...];
+let energy_rating = ["0.0", ...];
+// ... </code></pre>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <pre class="shadow"><code class="language-javascript">// CSV -> "a,b\n1,2" to Javascript 2D Array -> [["a", "b"], ["1", "2"]]
-// Also removes extra characters like "\"Lincoln Park-CPS\"" to Lincoln Park-CPS 
+                <!--Unfortunatly we have to store code like this :(-->
+                <pre class="shadow border rounded"><code class="language-javascript">// Example of using one big array 
+// CSV -> "a,b\n1,2" to
+// Javascript 2D Array -> [["a", "b"], ["1", "2"]]
+// Also removes extra characters like 
+// "\"Lincoln Park-CPS\"" -> to Lincoln Park-CPS 
 function parseCSV(content) {
+    // Removes whitespaces and divides up the .CSV file by rows
     const rows = content.trim().split("\n");
-    // We return a new 2D array using the .map method
+    // We return a new 2D array using the .map method where we, again, make another array
+    // This time going by the comma seperators.
+    // Think: "Property Name", "Address" -> new Array("Property Name", "Address");
     return rows.map(row =>
         row.split(",").map(cell =>
             cell.trim().replace(/^"|"$/g, "")
@@ -107,18 +129,14 @@ function parseCSV(content) {
     );
 }
 
-// In a Promise() so that we can await on it later, 
-// because of this we can wait for the content to finish loading
-function readCSV(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        // When file is finished being read we essentially return the result to what called the function
-        // We also return the parsed result
-        reader.onload = (e) => resolve(parseCSV(e.target.result));
-        reader.onerror = () => reject(new Error("Failed to read file :("));
-        reader.readAsText(file);
-    });
-} </code></pre>
+let data = parseCSV("[insert file from filepicker]");
+/* 
+    Assuming Drexel building is in row 0, we access the 
+    property-name value by using a key of 2 since the property 
+    is the third element stored in row, since we read left to right
+*/ 
+console.log(data[0][2]); // Outputs "Drexel Building"
+</code></pre>
             </div>
         </div>
     </div>
