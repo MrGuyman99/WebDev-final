@@ -109,8 +109,8 @@ let energy_rating = ["0.0", ...];
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <!--Unfortunatly we have to store code like this :(-->
+            <div class="col-md-7">
+                <!--Unfortunately we have to store code like this :(-->
                 <pre class="shadow border rounded"><code class="language-javascript">// Example of using one big array 
 // CSV -> "a,b\n1,2" to
 // Javascript 2D Array -> [["a", "b"], ["1", "2"]]
@@ -119,9 +119,10 @@ let energy_rating = ["0.0", ...];
 function parseCSV(content) {
     // Removes whitespaces and divides up the .CSV file by rows
     const rows = content.trim().split("\n");
-    // We return a new 2D array using the .map method where we, again, make another array
-    // This time going by the comma seperators.
-    // Think: "Property Name", "Address" -> new Array("Property Name", "Address");
+    // We return a new 2D array using the .map method 
+    // where we make an array going by commas as seperators.
+    // Think: "Property Name", 
+    // "Address" -> new Array("Property Name", "Address");
     return rows.map(row =>
         row.split(",").map(cell =>
             cell.trim().replace(/^"|"$/g, "")
@@ -133,10 +134,61 @@ let data = parseCSV("[insert file from filepicker]");
 /* 
     Assuming Drexel building is in row 0, we access the 
     property-name value by using a key of 2 since the property 
-    is the third element stored in row, since we read left to right
+    is the third element stored in row
 */ 
 console.log(data[0][2]); // Outputs "Drexel Building"
 </code></pre>
+            </div>
+            <div class="col-md-5">
+                <p>
+                    Now this seems a lot more complicated, but really it's the simplest way to do things. Most of the
+                    steps required to do this would still apply to the multi-array solution, it's just that now
+                    everything parsed, trimed up, and very nicely packaged into a single variable. If you want more an
+                    explanation for what exactly this all does, I highly encourage you to read the comments I've put on
+                    the code, it gives a much better and much more indepth explanation for how this all works. But, to
+                    put it lightly, we split the into rows (The \n denotes a new line) and after we take the rows and
+                    further map another array onto it by splitting by the commas instead. The table should help
+                    visualize what the array essentially looks like (Note: The table starts at 0 because arrays start at
+                    0)
+                </p>
+                <table class="table table-striped border rounded shadow">
+                    <thead>
+                        <tr>
+                            <th scope="col">Row #</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Zip-Code</th>
+                            <th scope="col">Energy rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">0</th>
+                            <td>8136 8142 S DREXEL AVE</td>
+                            <td>60619</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>410 E BOWEN AVE</td>
+                            <td>60619</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>309 W 23RD ST</td>
+                            <td>60616</td>
+                            <td>0.0</td>
+                        </tr>
+                        <tr>
+                            <td colspan="4" class="text-center">...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+
             </div>
         </div>
     </div>
