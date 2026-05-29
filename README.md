@@ -1,7 +1,7 @@
 # Web Dev Final
 **A final for Web Development**
 
-This is a simple little website that reads the chicago energy benchmarking dataset from the chicago data portal
+This is a simple little website that reads the chicago energy benchmarking dataset from the chicago data portal 
 
 **(The dataset can be found here -> https://data.cityofchicago.org/Environment-Sustainable-Development/Chicago-Energy-Benchmarking/xq83-jr8c/about_data)**
 
